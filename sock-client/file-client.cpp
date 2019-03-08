@@ -11,12 +11,15 @@
 
 int main(){
 	int sock = socket(AF_INET , SOCK_STREAM ,IPPROTO_TCP);
-
+        char serv_ip[16]={0};
+	int serv_port;
+	printf("Please inut server ip port ,such as '127.0.0.1 8777':\n");
+	scanf("%s %d",serv_ip,&serv_port);
 	struct sockaddr_in serv_addr;
 	memset(&serv_addr ,0 ,sizeof(serv_addr));
 	serv_addr.sin_family = AF_INET;
-	serv_addr.sin_addr.s_addr = inet_addr("127.0.0.1");
-	serv_addr.sin_port = htons(8777);
+	serv_addr.sin_addr.s_addr = inet_addr(serv_ip);
+	serv_addr.sin_port = htons(serv_port);
 
 	connect(sock , (struct sockaddr*)&serv_addr , sizeof(serv_addr));
 
