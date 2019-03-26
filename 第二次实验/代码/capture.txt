@@ -1,0 +1,74 @@
+Ether Destination host:ff:ff:ff:ff:ff:ff
+Ether Source host: 0:50:56:c0: 0: 8
+Not IP proto
+
+
+Ether Destination host: 0:50:56:fa: 0:9d
+Ether Source host: 0: c:29:e8:af:b3
+ip destination host:192.168.116.2
+ip source host:192.168.116.129
+tcp/udp destination port:53
+tcp/udp source port:44193
+
+
+Ether Destination host: 0:50:56:fa: 0:9d
+Ether Source host: 0: c:29:e8:af:b3
+ip destination host:192.168.116.2
+ip source host:192.168.116.129
+tcp/udp destination port:53
+tcp/udp source port:44193
+
+
+Ether Destination host: 0: c:29:e8:af:b3
+Ether Source host: 0:50:56:fa: 0:9d
+ip destination host:192.168.116.129
+ip source host:192.168.116.2
+tcp/udp destination port:44193
+tcp/udp source port:53
+
+
+Ether Destination host: 0: c:29:e8:af:b3
+Ether Source host: 0:50:56:fa: 0:9d
+ip destination host:192.168.116.129
+ip source host:192.168.116.2
+tcp/udp destination port:44193
+tcp/udp source port:53
+
+
+Ether Destination host: 0:50:56:fa: 0:9d
+Ether Source host: 0: c:29:e8:af:b3
+ip destination host:119.75.217.26
+ip source host:192.168.116.129
+Not TCP or UDP proto
+
+
+Ether Destination host: 0: c:29:e8:af:b3
+Ether Source host: 0:50:56:fa: 0:9d
+ip destination host:192.168.116.129
+ip source host:119.75.217.26
+Not TCP or UDP proto
+
+
+Ether Destination host: 0:50:56:fa: 0:9d
+Ether Source host: 0: c:29:e8:af:b3
+ip destination host:192.168.116.2
+ip source host:192.168.116.129
+tcp/udp destination port:53
+tcp/udp source port:51543
+
+
+Ether Destination host: 0: c:29:e8:af:b3
+Ether Source host: 0:50:56:fa: 0:9d
+ip destination host:192.168.116.129
+ip source host:192.168.116.2
+tcp/udp destination port:51543
+tcp/udp source port:53
+
+
+Ether Destination host: 0:50:56:fa: 0:9d
+Ether Source host: 0: c:29:e8:af:b3
+ip destination host:119.75.217.26
+ip source host:192.168.116.129
+Not TCP or UDP proto
+
+
