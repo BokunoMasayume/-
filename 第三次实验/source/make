@@ -1,0 +1,10 @@
+.PONY:build
+build: libnet_arp.cpp libnet_get_file.cpp
+	g++ libnet_arp.cpp -o myarp -lnet -lpcap
+	g++ libnet_get_file.cpp -o myshakehand -lnet -lpcap
+
+
+.PONY:run
+run: myshakehand myarp
+	./myarp
+	./myshakehand
