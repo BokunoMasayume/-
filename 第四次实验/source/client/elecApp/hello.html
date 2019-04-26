@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+	<title>实验四</title>
+	<style>
+	body{
+	}
+	#inputbox{
+		padding: 10%;
+		margin-left:auto;
+		text-align: center;
+		margin-right:auto;
+		line-height: 40px;
+	}
+	</style>
+  </head>
+  <body>
+	  <div id="inputbox"> 
+		name:&nbsp;
+		<input type="text" id="iname"><br/>
+		passwd:&nbsp;
+		<input type="password" id="passwd"><br/>
+		<button type="button" id="btn"  class="btn">认&nbsp;证</button>
+
+	  </div>
+	  <div id="output">
+
+	  </div>
+
+		<script type="text/javascript">
+			var status = 0;
+			var status_n = 4; 
+			var  crypt = require('crypto');
+			var i_net = require('net');
+			var fs = require("fs");
+
+			var host = '107.182.184.231';
+			var port = 8777;
+			var output = document.getElementById("output");
+
+    	var iname = document.getElementById('iname');
+			var passwd = document.getElementById('passwd');
+			var btn = document.getElementById('btn');
+			var hash1,hash2,token;
+			iname.onchange = function(){
+				console.log(iname.value);
+			}
+			passwd.onchange = function(){
+				console.log(passwd.value);
+			}
+			btn.onclick = function(){
+				
+				var md5 = crypt.createHash('md5');
+				hash1 = md5.update(iname.value).update(passwd.value).digest('hex');
+				token = Math.round(Math.random()*65535);
+				token = token.toString();
+			  md5 = crypt.createHash('md5');
+
+				hash2 = md5.update(hash1).update(token).digest('hex');
+				console.log(hash1,token,hash2);
+
+				var client = new i_net.Socket();
+				client.connect(port , host , function(){
+					client.write("tian wang gai di hu");
+					//status = (status+1)%status_n;
+					status = 1;
+					console.log("connect");
+				});
+
+				client.on('data',function(dataO){
+					console.log("data: ",dataO);
+					var data = dataO.toString();
+					console.log("datastr , status",data+status);
+					if(data.startsWith('bao ta zhen he yao') && status==1){
+						console.log(status);
+						
+						//status = ((status + 1)%status_n);
+						status=2;
+						console.log(status);
+						client.write("signup");
+						console.log("暗号",status);
+					}
+					else if(data == 'ok' && status==2){
+						//status = (status+1)%status_n;
+						status=3;
+						client.write(iname.value+' '+token+' '+hash2);
+						console.log("sign up",status);
+					}
+					else if(status ==3){
+						//status = (status+1)%status_n;
+						status = 0;
+						console.log("in status 3",status);
+						if(data.startsWith("empty") || data.startsWith("error")){
+							client.destroy();
+						}else{
+							var decipher = crypt.createDecipheriv('aes-128-ecb',Buffer.from(hash1,'hex'),Buffer.from([]));
+							var theone = '';
+							console.log("datao tostring is ",dataO.toString("hex"));
+							decipher.setAutoPadding(false);//this is the fucking point !!!! my hours!!!
+							theone = decipher.update(dataO,null,"utf8");
+							theone += decipher.final("utf8");
+							console.log("theone",theone);
+							fs.writeFile('./token.txt',theone+"\n",function(err){
+								if(err){
+									output.innerHTML = "您的秘钥 "+theone+" 写入文件失败";
+								}
+								else{
+									var text = "您的秘钥 " +theone+" 已存入文件";
+									output.innerHTML = text;
+								}
+							});
+							
+							//not useful cry...
+							// decipher.on('readable',()=>{
+							// 	while(null !== (chunk = decipher.read())){
+							// 		theone+=chunk.toString('ascii');
+							// 	}
+							// });
+
+							// decipher.on('end',()=>{
+							// 	console.log("the one",theone);
+							// });
+							// console.log("buffer hash1",Buffer.from(hash1,'hex'));
+							// decipher.write(dataO,'binary');
+							
+							// decipher.end();
+						}
+					}
+					else{
+						status = 0;
+						console.log("no...");
+						client.destroy();
+					}
+				});
+			}
+
+    </script>
+  </body>
+</html>
